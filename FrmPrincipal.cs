@@ -16,5 +16,17 @@ namespace PDV
         {
             InitializeComponent();
         }
+
+        private void MenuSair_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuFuncionarios_Click(object sender, EventArgs e)
+        {
+            FrmFuncionario frm = new FrmFuncionario();
+            frm.ShowDialog();
+        }
+
     }
 }
