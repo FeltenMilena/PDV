@@ -34,11 +34,10 @@
             this.lblEndereco = new System.Windows.Forms.Label();
             this.lblCargo = new System.Windows.Forms.Label();
             this.lblTelefone = new System.Windows.Forms.Label();
-            this.lblFoto = new System.Windows.Forms.Label();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.txtEndereco = new System.Windows.Forms.TextBox();
             this.cbxCargo = new System.Windows.Forms.ComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.grid = new System.Windows.Forms.DataGridView();
             this.btnNovo = new System.Windows.Forms.Button();
             this.btnExcluir = new System.Windows.Forms.Button();
             this.btnEditar = new System.Windows.Forms.Button();
@@ -48,7 +47,7 @@
             this.txtCPF = new System.Windows.Forms.MaskedTextBox();
             this.txtTelefone = new System.Windows.Forms.MaskedTextBox();
             this.btnCancelar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.image)).BeginInit();
             this.SuspendLayout();
             // 
@@ -102,16 +101,6 @@
             this.lblTelefone.TabIndex = 4;
             this.lblTelefone.Text = "Telefone";
             // 
-            // lblFoto
-            // 
-            this.lblFoto.AutoSize = true;
-            this.lblFoto.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFoto.Location = new System.Drawing.Point(739, 15);
-            this.lblFoto.Name = "lblFoto";
-            this.lblFoto.Size = new System.Drawing.Size(39, 18);
-            this.lblFoto.TabIndex = 5;
-            this.lblFoto.Text = "Foto";
-            // 
             // txtNome
             // 
             this.txtNome.Enabled = false;
@@ -128,7 +117,7 @@
             this.txtEndereco.Location = new System.Drawing.Point(97, 135);
             this.txtEndereco.Name = "txtEndereco";
             this.txtEndereco.Size = new System.Drawing.Size(587, 24);
-            this.txtEndereco.TabIndex = 8;
+            this.txtEndereco.TabIndex = 10;
             // 
             // cbxCargo
             // 
@@ -143,18 +132,19 @@
             this.cbxCargo.Size = new System.Drawing.Size(186, 26);
             this.cbxCargo.TabIndex = 9;
             // 
-            // dataGridView1
+            // grid
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(15, 231);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(996, 222);
-            this.dataGridView1.TabIndex = 12;
+            this.grid.AllowUserToAddRows = false;
+            this.grid.AllowUserToDeleteRows = false;
+            this.grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grid.Location = new System.Drawing.Point(15, 231);
+            this.grid.Name = "grid";
+            this.grid.ReadOnly = true;
+            this.grid.RowHeadersWidth = 51;
+            this.grid.RowTemplate.Height = 24;
+            this.grid.Size = new System.Drawing.Size(876, 222);
+            this.grid.TabIndex = 12;
+            this.grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
             // btnNovo
             // 
@@ -185,6 +175,7 @@
             this.btnEditar.TabIndex = 15;
             this.btnEditar.Text = "Editar";
             this.btnEditar.UseVisualStyleBackColor = true;
+            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
             // btnSalvar
             // 
@@ -200,10 +191,11 @@
             // btnFoto
             // 
             this.btnFoto.Enabled = false;
-            this.btnFoto.Location = new System.Drawing.Point(732, 97);
+            this.btnFoto.Location = new System.Drawing.Point(740, 15);
             this.btnFoto.Name = "btnFoto";
-            this.btnFoto.Size = new System.Drawing.Size(75, 23);
-            this.btnFoto.TabIndex = 17;
+            this.btnFoto.Size = new System.Drawing.Size(67, 42);
+            this.btnFoto.TabIndex = 11;
+            this.btnFoto.Text = "Alterar Imagem";
             this.btnFoto.UseVisualStyleBackColor = true;
             this.btnFoto.Click += new System.EventHandler(this.btnFoto_Click);
             // 
@@ -225,7 +217,7 @@
             this.txtCPF.Mask = "000.000.000-00";
             this.txtCPF.Name = "txtCPF";
             this.txtCPF.Size = new System.Drawing.Size(124, 24);
-            this.txtCPF.TabIndex = 18;
+            this.txtCPF.TabIndex = 7;
             // 
             // txtTelefone
             // 
@@ -235,7 +227,7 @@
             this.txtTelefone.Mask = "(99) 0 0000-0000";
             this.txtTelefone.Name = "txtTelefone";
             this.txtTelefone.Size = new System.Drawing.Size(134, 24);
-            this.txtTelefone.TabIndex = 19;
+            this.txtTelefone.TabIndex = 8;
             // 
             // btnCancelar
             // 
@@ -245,6 +237,7 @@
             this.btnCancelar.TabIndex = 20;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // FrmFuncionario
             // 
@@ -259,12 +252,11 @@
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.btnExcluir);
             this.Controls.Add(this.btnNovo);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.grid);
             this.Controls.Add(this.image);
             this.Controls.Add(this.cbxCargo);
             this.Controls.Add(this.txtEndereco);
             this.Controls.Add(this.txtNome);
-            this.Controls.Add(this.lblFoto);
             this.Controls.Add(this.lblTelefone);
             this.Controls.Add(this.lblCargo);
             this.Controls.Add(this.lblEndereco);
@@ -275,7 +267,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro Funcionário";
             this.Load += new System.EventHandler(this.FrmFuncionario_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.image)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -289,12 +281,11 @@
         private System.Windows.Forms.Label lblEndereco;
         private System.Windows.Forms.Label lblCargo;
         private System.Windows.Forms.Label lblTelefone;
-        private System.Windows.Forms.Label lblFoto;
         private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.TextBox txtEndereco;
         private System.Windows.Forms.ComboBox cbxCargo;
         private System.Windows.Forms.PictureBox image;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView grid;
         private System.Windows.Forms.Button btnNovo;
         private System.Windows.Forms.Button btnExcluir;
         private System.Windows.Forms.Button btnEditar;
