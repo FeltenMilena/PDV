@@ -55,9 +55,10 @@
             // 
             this.lblNome.AutoSize = true;
             this.lblNome.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNome.Location = new System.Drawing.Point(12, 21);
+            this.lblNome.Location = new System.Drawing.Point(9, 17);
+            this.lblNome.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNome.Name = "lblNome";
-            this.lblNome.Size = new System.Drawing.Size(49, 18);
+            this.lblNome.Size = new System.Drawing.Size(41, 15);
             this.lblNome.TabIndex = 0;
             this.lblNome.Text = "Nome";
             // 
@@ -65,9 +66,10 @@
             // 
             this.lblCpf.AutoSize = true;
             this.lblCpf.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCpf.Location = new System.Drawing.Point(434, 21);
+            this.lblCpf.Location = new System.Drawing.Point(326, 17);
+            this.lblCpf.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCpf.Name = "lblCpf";
-            this.lblCpf.Size = new System.Drawing.Size(38, 18);
+            this.lblCpf.Size = new System.Drawing.Size(30, 15);
             this.lblCpf.TabIndex = 1;
             this.lblCpf.Text = "CPF";
             // 
@@ -75,9 +77,10 @@
             // 
             this.lblEndereco.AutoSize = true;
             this.lblEndereco.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEndereco.Location = new System.Drawing.Point(12, 141);
+            this.lblEndereco.Location = new System.Drawing.Point(9, 115);
+            this.lblEndereco.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEndereco.Name = "lblEndereco";
-            this.lblEndereco.Size = new System.Drawing.Size(72, 18);
+            this.lblEndereco.Size = new System.Drawing.Size(60, 15);
             this.lblEndereco.TabIndex = 2;
             this.lblEndereco.Text = "Endereço";
             // 
@@ -85,9 +88,10 @@
             // 
             this.lblCargo.AutoSize = true;
             this.lblCargo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCargo.Location = new System.Drawing.Point(434, 82);
+            this.lblCargo.Location = new System.Drawing.Point(326, 67);
+            this.lblCargo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCargo.Name = "lblCargo";
-            this.lblCargo.Size = new System.Drawing.Size(49, 18);
+            this.lblCargo.Size = new System.Drawing.Size(40, 15);
             this.lblCargo.TabIndex = 3;
             this.lblCargo.Text = "Cargo";
             // 
@@ -95,9 +99,10 @@
             // 
             this.lblTelefone.AutoSize = true;
             this.lblTelefone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTelefone.Location = new System.Drawing.Point(12, 82);
+            this.lblTelefone.Location = new System.Drawing.Point(9, 67);
+            this.lblTelefone.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTelefone.Name = "lblTelefone";
-            this.lblTelefone.Size = new System.Drawing.Size(65, 18);
+            this.lblTelefone.Size = new System.Drawing.Size(55, 15);
             this.lblTelefone.TabIndex = 4;
             this.lblTelefone.Text = "Telefone";
             // 
@@ -105,18 +110,20 @@
             // 
             this.txtNome.Enabled = false;
             this.txtNome.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNome.Location = new System.Drawing.Point(97, 15);
+            this.txtNome.Location = new System.Drawing.Point(73, 12);
+            this.txtNome.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtNome.Name = "txtNome";
-            this.txtNome.Size = new System.Drawing.Size(317, 24);
+            this.txtNome.Size = new System.Drawing.Size(239, 21);
             this.txtNome.TabIndex = 6;
             // 
             // txtEndereco
             // 
             this.txtEndereco.Enabled = false;
             this.txtEndereco.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEndereco.Location = new System.Drawing.Point(97, 135);
+            this.txtEndereco.Location = new System.Drawing.Point(73, 110);
+            this.txtEndereco.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtEndereco.Name = "txtEndereco";
-            this.txtEndereco.Size = new System.Drawing.Size(587, 24);
+            this.txtEndereco.Size = new System.Drawing.Size(441, 21);
             this.txtEndereco.TabIndex = 10;
             // 
             // cbxCargo
@@ -127,9 +134,10 @@
             this.cbxCargo.Items.AddRange(new object[] {
             "Gerente",
             "Atendente"});
-            this.cbxCargo.Location = new System.Drawing.Point(498, 74);
+            this.cbxCargo.Location = new System.Drawing.Point(374, 60);
+            this.cbxCargo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbxCargo.Name = "cbxCargo";
-            this.cbxCargo.Size = new System.Drawing.Size(186, 26);
+            this.cbxCargo.Size = new System.Drawing.Size(140, 23);
             this.cbxCargo.TabIndex = 9;
             // 
             // grid
@@ -137,20 +145,22 @@
             this.grid.AllowUserToAddRows = false;
             this.grid.AllowUserToDeleteRows = false;
             this.grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grid.Location = new System.Drawing.Point(15, 231);
+            this.grid.Location = new System.Drawing.Point(11, 188);
+            this.grid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.grid.Name = "grid";
             this.grid.ReadOnly = true;
             this.grid.RowHeadersWidth = 51;
             this.grid.RowTemplate.Height = 24;
-            this.grid.Size = new System.Drawing.Size(876, 222);
+            this.grid.Size = new System.Drawing.Size(657, 180);
             this.grid.TabIndex = 12;
             this.grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
             // btnNovo
             // 
-            this.btnNovo.Location = new System.Drawing.Point(53, 473);
+            this.btnNovo.Location = new System.Drawing.Point(40, 384);
+            this.btnNovo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnNovo.Name = "btnNovo";
-            this.btnNovo.Size = new System.Drawing.Size(75, 23);
+            this.btnNovo.Size = new System.Drawing.Size(56, 19);
             this.btnNovo.TabIndex = 13;
             this.btnNovo.Text = "Novo";
             this.btnNovo.UseVisualStyleBackColor = true;
@@ -159,19 +169,22 @@
             // btnExcluir
             // 
             this.btnExcluir.Enabled = false;
-            this.btnExcluir.Location = new System.Drawing.Point(465, 473);
+            this.btnExcluir.Location = new System.Drawing.Point(349, 384);
+            this.btnExcluir.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnExcluir.Name = "btnExcluir";
-            this.btnExcluir.Size = new System.Drawing.Size(75, 23);
+            this.btnExcluir.Size = new System.Drawing.Size(56, 19);
             this.btnExcluir.TabIndex = 14;
             this.btnExcluir.Text = "Excluir";
             this.btnExcluir.UseVisualStyleBackColor = true;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // btnEditar
             // 
             this.btnEditar.Enabled = false;
-            this.btnEditar.Location = new System.Drawing.Point(362, 473);
+            this.btnEditar.Location = new System.Drawing.Point(272, 384);
+            this.btnEditar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(75, 23);
+            this.btnEditar.Size = new System.Drawing.Size(56, 19);
             this.btnEditar.TabIndex = 15;
             this.btnEditar.Text = "Editar";
             this.btnEditar.UseVisualStyleBackColor = true;
@@ -180,9 +193,10 @@
             // btnSalvar
             // 
             this.btnSalvar.Enabled = false;
-            this.btnSalvar.Location = new System.Drawing.Point(156, 473);
+            this.btnSalvar.Location = new System.Drawing.Point(117, 384);
+            this.btnSalvar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSalvar.Name = "btnSalvar";
-            this.btnSalvar.Size = new System.Drawing.Size(75, 23);
+            this.btnSalvar.Size = new System.Drawing.Size(56, 19);
             this.btnSalvar.TabIndex = 16;
             this.btnSalvar.Text = "Salvar";
             this.btnSalvar.UseVisualStyleBackColor = true;
@@ -191,9 +205,10 @@
             // btnFoto
             // 
             this.btnFoto.Enabled = false;
-            this.btnFoto.Location = new System.Drawing.Point(740, 15);
+            this.btnFoto.Location = new System.Drawing.Point(555, 12);
+            this.btnFoto.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnFoto.Name = "btnFoto";
-            this.btnFoto.Size = new System.Drawing.Size(67, 42);
+            this.btnFoto.Size = new System.Drawing.Size(50, 34);
             this.btnFoto.TabIndex = 11;
             this.btnFoto.Text = "Alterar Imagem";
             this.btnFoto.UseVisualStyleBackColor = true;
@@ -202,9 +217,10 @@
             // image
             // 
             this.image.Enabled = false;
-            this.image.Location = new System.Drawing.Point(813, 15);
+            this.image.Location = new System.Drawing.Point(610, 12);
+            this.image.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.image.Name = "image";
-            this.image.Size = new System.Drawing.Size(198, 186);
+            this.image.Size = new System.Drawing.Size(148, 151);
             this.image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.image.TabIndex = 10;
             this.image.TabStop = false;
@@ -213,27 +229,30 @@
             // 
             this.txtCPF.Enabled = false;
             this.txtCPF.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCPF.Location = new System.Drawing.Point(498, 18);
+            this.txtCPF.Location = new System.Drawing.Point(374, 15);
+            this.txtCPF.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCPF.Mask = "000.000.000-00";
             this.txtCPF.Name = "txtCPF";
-            this.txtCPF.Size = new System.Drawing.Size(124, 24);
+            this.txtCPF.Size = new System.Drawing.Size(94, 21);
             this.txtCPF.TabIndex = 7;
             // 
             // txtTelefone
             // 
             this.txtTelefone.Enabled = false;
             this.txtTelefone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTelefone.Location = new System.Drawing.Point(97, 81);
+            this.txtTelefone.Location = new System.Drawing.Point(73, 66);
+            this.txtTelefone.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTelefone.Mask = "(99) 0 0000-0000";
             this.txtTelefone.Name = "txtTelefone";
-            this.txtTelefone.Size = new System.Drawing.Size(134, 24);
+            this.txtTelefone.Size = new System.Drawing.Size(102, 21);
             this.txtTelefone.TabIndex = 8;
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(259, 473);
+            this.btnCancelar.Location = new System.Drawing.Point(194, 384);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelar.Size = new System.Drawing.Size(56, 19);
             this.btnCancelar.TabIndex = 20;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -241,9 +260,9 @@
             // 
             // FrmFuncionario
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1026, 514);
+            this.ClientSize = new System.Drawing.Size(770, 418);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.txtTelefone);
             this.Controls.Add(this.txtCPF);
@@ -263,6 +282,7 @@
             this.Controls.Add(this.lblCpf);
             this.Controls.Add(this.lblNome);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FrmFuncionario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cadastro Funcionário";

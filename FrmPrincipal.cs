@@ -12,11 +12,14 @@ namespace PDV
 {
     public partial class frmPrincipal : Form
     {
+        #region [ Inicializador Form ]
         public frmPrincipal()
         {
             InitializeComponent();
         }
+        #endregion
 
+        #region [ Eventos Form ]
         private void MenuSair_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -27,6 +30,6 @@ namespace PDV
             FrmFuncionario frm = new FrmFuncionario();
             frm.ShowDialog();
         }
-
+        #endregion
     }
 }

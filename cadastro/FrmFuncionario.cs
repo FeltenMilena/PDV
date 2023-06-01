@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿#region [ Referências ]
+using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Math.EC;
 using System;
 using System.Collections.Generic;
@@ -10,24 +11,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+#endregion
 
 namespace PDV
 {
     public partial class FrmFuncionario : Form
     {
+        #region [ Váriaveis Globais ]
+        private Conexao con = new Conexao();
+        private string sql;
+        private MySqlCommand cmd;
+        private string foto;
+        private bool alterouImagem = false;
+        private string id;
+        #endregion
 
-        Conexao con = new Conexao();
-        string sql;
-        MySqlCommand cmd;
-        string foto;
-        bool alterouImagem = false;
-        string id;
-
+        #region [ Inicializador Form ]
         public FrmFuncionario()
         {
             InitializeComponent();
         }
+        #endregion
 
+        #region [ Montar Grid ]
         private void FormatarGrid()
         {
             grid.Columns[0].HeaderText = "ID";
@@ -42,66 +48,14 @@ namespace PDV
             grid.Columns[0].Visible = false;
             grid.Columns[7].Visible = false;
         }
+        #endregion
 
+        #region [ Eventos Form ]
         private void FrmFuncionario_Load(object sender, EventArgs e)
         {
             LimparFoto();
             Listar();
             alterouImagem = false;
-        }
-
-        private void Listar()
-        {
-            con.AbrirConexao();
-            sql = "SELECT * FROM funcionarios ORDER BY nome ASC";
-            cmd = new MySqlCommand(sql, con.con);
-            MySqlDataAdapter da = new MySqlDataAdapter();
-            da.SelectCommand = cmd;
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            grid.DataSource = dt;
-            con.FecharConexao();
-
-            FormatarGrid();
-        }
-
-        private void btnSalvar_Click(object sender, EventArgs e)
-        {
-            if (txtNome.Text.ToString().Trim() == "")
-            {
-                MessageBox.Show("Campo Nome inválido", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNome.Text = "";
-                txtNome.Focus();
-                return;
-            }
-            if (txtCPF.Text == "   ,   ,   -" || txtCPF.Text.Length < 14)
-            {
-                MessageBox.Show("Campo CPF inválido", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCPF.Focus();
-                return;
-            }
-
-            con.AbrirConexao();
-
-            sql = "INSERT INTO funcionarios(nome, cpf, telefone, cargo, endereco, data, foto) VALUES(@nome, @cpf, @telefone, @cargo, @endereco, curDate(), @foto)";
-
-            cmd = new MySqlCommand(sql, con.con);
-            cmd.Parameters.AddWithValue("@nome", txtNome.Text);
-            cmd.Parameters.AddWithValue("@cpf", txtCPF.Text);
-            cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
-            cmd.Parameters.AddWithValue("@cargo", cbxCargo.Text);
-            cmd.Parameters.AddWithValue("@endereco", txtEndereco.Text);
-            cmd.Parameters.AddWithValue("@foto", imagem());
-
-            cmd.ExecuteNonQuery();
-            con.FecharConexao();
-
-            LimparFoto();
-            MessageBox.Show("Registro Salvo com Sucesso!", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            HabilitaBotoes(true, false, true, false, false);
-            habilitarCampos(false);
-            LimparCampos();
-            Listar();
         }
 
         private void btnFoto_Click(object sender, EventArgs e)
@@ -114,71 +68,6 @@ namespace PDV
                 image.ImageLocation = foto;
                 alterouImagem = true;
             }
-        }
-
-        private byte[] imagem()
-        {
-            byte[] imagem_byte = null;
-            if (foto == "")
-            {
-                return null;
-            }
-
-            FileStream fs = new FileStream(foto, FileMode.Open, FileAccess.Read);
-            BinaryReader br = new BinaryReader(fs);
-
-            imagem_byte = br.ReadBytes((int)fs.Length);
-            return imagem_byte;
-        }
-        private void LimparFoto()
-        {
-            image.Image = Properties.Resources.funcionarioSemFoto;
-            foto = "imagens/funcionarioSemFoto.png";
-        }
-
-        private void btnNovo_Click(object sender, EventArgs e)
-        {
-            habilitarCampos(true);
-            HabilitaBotoes(false, true, true, false, false);
-            LimparCampos();
-            txtNome.Focus();
-        }
-
-        public void habilitarCampos(bool habilita)
-        {
-            txtNome.Enabled = habilita;
-            txtCPF.Enabled = habilita;
-            txtTelefone.Enabled = habilita;
-            cbxCargo.Enabled = habilita;
-            txtEndereco.Enabled = habilita;
-            image.Enabled = habilita;
-            btnFoto.Enabled = habilita;
-        }
-
-        public void LimparCampos()
-        {
-            txtNome.Text = "";
-            txtCPF.Text = "";
-            txtTelefone.Text = "";
-            cbxCargo.Text = "";
-            txtEndereco.Text = "";
-            image.Text = "";
-            LimparFoto();
-        }
-
-        public void HabilitaBotoes(bool novo, bool salvar, bool cancelar, bool editar, bool excluir)
-        {
-            btnNovo.Enabled = novo;
-            btnSalvar.Enabled = salvar;
-            btnCancelar.Enabled = cancelar;
-            btnEditar.Enabled = editar;
-            btnExcluir.Enabled = excluir;
-        }
-
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            HabilitaBotoes(true, false, true, false, false);
-            LimparCampos();
         }
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -213,21 +102,52 @@ namespace PDV
             }
         }
 
+        private void btnNovo_Click(object sender, EventArgs e)
+        {
+            habilitarCampos(true);
+            HabilitaBotoes(false, true, true, false, false);
+            LimparCampos();
+            txtNome.Focus();
+        }
+
+        private void btnSalvar_Click(object sender, EventArgs e)
+        {
+            validaNome(txtNome.Text.ToString().Trim());
+            validaCPF(txtCPF.Text);
+
+            con.AbrirConexao();
+
+            sql = "INSERT INTO funcionarios(nome, cpf, telefone, cargo, endereco, data, foto) VALUES(@nome, @cpf, @telefone, @cargo, @endereco, curDate(), @foto)";
+
+            cmd = new MySqlCommand(sql, con.con);
+            cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+            cmd.Parameters.AddWithValue("@cpf", txtCPF.Text);
+            cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+            cmd.Parameters.AddWithValue("@cargo", cbxCargo.Text);
+            cmd.Parameters.AddWithValue("@endereco", txtEndereco.Text);
+            cmd.Parameters.AddWithValue("@foto", imagem());
+
+            cmd.ExecuteNonQuery();
+            con.FecharConexao();
+
+            LimparFoto();
+            MessageBox.Show("Registro Salvo com Sucesso!", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            HabilitaBotoes(true, false, true, false, false);
+            habilitarCampos(false);
+            LimparCampos();
+            Listar();
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            HabilitaBotoes(true, false, true, false, false);
+            LimparCampos();
+        }
+
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (txtNome.Text.ToString().Trim() == "")
-            {
-                MessageBox.Show("Campo Nome inválido", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNome.Text = "";
-                txtNome.Focus();
-                return;
-            }
-            if (txtCPF.Text == "   ,   ,   -" || txtCPF.Text.Length < 14)
-            {
-                MessageBox.Show("Campo CPF inválido", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCPF.Focus();
-                return;
-            }
+            validaNome(txtNome.Text.ToString().Trim());
+            validaCPF(txtCPF.Text);
 
             con.AbrirConexao();
 
@@ -259,7 +179,106 @@ namespace PDV
             Listar();
             habilitarCampos(false);
             HabilitaBotoes(true, false, true, false, false);
+            LimparCampos();
             MessageBox.Show("Registro Editado com Sucesso!", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region [ Validações ]
+        private void validaNome(string nome)
+        {
+            if (nome == "")
+            {
+                MessageBox.Show("Campo Nome inválido", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNome.Text = "";
+                txtNome.Focus();
+                return;
+            }
+        }
+
+        private void validaCPF(string cpf)
+        {
+            if (cpf == "   ,   ,   -" || txtCPF.Text.Length < 14)
+            {
+                MessageBox.Show("Campo CPF inválido", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCPF.Focus();
+                return;
+            }
+        }
+        #endregion
+
+        #region [ Métodos ]
+        private void Listar()
+        {
+            con.AbrirConexao();
+            sql = "SELECT * FROM funcionarios ORDER BY nome ASC";
+            cmd = new MySqlCommand(sql, con.con);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            da.SelectCommand = cmd;
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            grid.DataSource = dt;
+            con.FecharConexao();
+
+            FormatarGrid();
+        }
+
+        private byte[] imagem()
+        {
+            byte[] imagem_byte = null;
+            if (foto == "")
+            {
+                return null;
+            }
+
+            FileStream fs = new FileStream(foto, FileMode.Open, FileAccess.Read);
+            BinaryReader br = new BinaryReader(fs);
+
+            imagem_byte = br.ReadBytes((int)fs.Length);
+            return imagem_byte;
+        }
+
+        private void LimparFoto()
+        {
+            image.Image = Properties.Resources.funcionarioSemFoto;
+            foto = "imagens/funcionarioSemFoto.png";
+        }
+
+        public void LimparCampos()
+        {
+            txtNome.Text = "";
+            txtCPF.Text = "";
+            txtTelefone.Text = "";
+            cbxCargo.Text = "";
+            txtEndereco.Text = "";
+            image.Text = "";
+            LimparFoto();
+        }
+
+        public void habilitarCampos(bool habilita)
+        {
+            txtNome.Enabled = habilita;
+            txtCPF.Enabled = habilita;
+            txtTelefone.Enabled = habilita;
+            cbxCargo.Enabled = habilita;
+            txtEndereco.Enabled = habilita;
+            image.Enabled = habilita;
+            btnFoto.Enabled = habilita;
+        }
+
+        public void HabilitaBotoes(bool novo, bool salvar, bool cancelar, bool editar, bool excluir)
+        {
+            btnNovo.Enabled = novo;
+            btnSalvar.Enabled = salvar;
+            btnCancelar.Enabled = cancelar;
+            btnEditar.Enabled = editar;
+            btnExcluir.Enabled = excluir;
+        }
+        #endregion
     }
 }
