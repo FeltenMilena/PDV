@@ -17,13 +17,14 @@ namespace PDV
 {
     public partial class FrmFuncionario : Form
     {
-        #region [ Váriaveis Globais ]
+        #region [ Váriaveis ]
         private Conexao con = new Conexao();
         private string sql;
         private MySqlCommand cmd;
         private string foto;
         private bool alterouImagem = false;
         private string id;
+        private string cpfAntigo;
         #endregion
 
         #region [ Inicializador Form ]
@@ -80,6 +81,7 @@ namespace PDV
                 id = grid.CurrentRow.Cells[0].Value.ToString();
                 txtNome.Text = grid.CurrentRow.Cells[1].Value.ToString();
                 txtCPF.Text = grid.CurrentRow.Cells[2].Value.ToString();
+                cpfAntigo = grid.CurrentRow.Cells[2].Value.ToString();
                 txtTelefone.Text = grid.CurrentRow.Cells[3].Value.ToString();
                 cbxCargo.Text = grid.CurrentRow.Cells[4].Value.ToString();
                 txtEndereco.Text = grid.CurrentRow.Cells[5].Value.ToString();
@@ -146,41 +148,52 @@ namespace PDV
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            validaNome(txtNome.Text.ToString().Trim());
-            validaCPF(txtCPF.Text);
-
-            con.AbrirConexao();
-
-            if (alterouImagem)
+            try
             {
-                sql = "UPDATE funcionarios SET nome = @nome, cpf = @cpf, telefone = @telefone, cargo = @cargo, endereco = @endereco, foto = @foto WHERE id = @id";
-                cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.Parameters.AddWithValue("@nome", txtNome.Text);
-                cmd.Parameters.AddWithValue("@cpf", txtCPF.Text);
-                cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
-                cmd.Parameters.AddWithValue("@cargo", cbxCargo.Text);
-                cmd.Parameters.AddWithValue("@endereco", txtEndereco.Text);
-                cmd.Parameters.AddWithValue("@foto", imagem());
-            }
-            else
+                validaNome(txtNome.Text.ToString().Trim());
+                if (validaCPF(txtCPF.Text).ToString() != "")
+                {
+                    throw Exception 
+                }
+                con.AbrirConexao();
+
+                if (alterouImagem)
+                {
+                    sql = "UPDATE funcionarios SET nome = @nome, cpf = @cpf, telefone = @telefone, cargo = @cargo, endereco = @endereco, foto = @foto WHERE id = @id";
+                    cmd = new MySqlCommand(sql, con.con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                    cmd.Parameters.AddWithValue("@cpf", txtCPF.Text);
+                    cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                    cmd.Parameters.AddWithValue("@cargo", cbxCargo.Text);
+                    cmd.Parameters.AddWithValue("@endereco", txtEndereco.Text);
+                    cmd.Parameters.AddWithValue("@foto", imagem());
+                }
+                else
+                {
+                    sql = "UPDATE funcionarios SET nome = @nome, cpf = @cpf, telefone = @telefone, cargo = @cargo, endereco = @endereco WHERE id = @id";
+                    cmd = new MySqlCommand(sql, con.con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                    cmd.Parameters.AddWithValue("@cpf", txtCPF.Text);
+                    cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                    cmd.Parameters.AddWithValue("@cargo", cbxCargo.Text);
+                    cmd.Parameters.AddWithValue("@endereco", txtEndereco.Text);
+                }
+                Listar();
+                habilitarCampos(false);
+                HabilitaBotoes(true, false, true, false, false);
+                LimparCampos();
+                MessageBox.Show("Registro Editado com Sucesso!", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } catch (Exception ex)
             {
-                sql = "UPDATE funcionarios SET nome = @nome, cpf = @cpf, telefone = @telefone, cargo = @cargo, endereco = @endereco WHERE id = @id";
-                cmd = new MySqlCommand(sql, con.con);
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.Parameters.AddWithValue("@nome", txtNome.Text);
-                cmd.Parameters.AddWithValue("@cpf", txtCPF.Text);
-                cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
-                cmd.Parameters.AddWithValue("@cargo", cbxCargo.Text);
-                cmd.Parameters.AddWithValue("@endereco", txtEndereco.Text);
+                MessageBox.Show(ex.Message, "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            cmd.ExecuteNonQuery();
-            con.FecharConexao();
-            Listar();
-            habilitarCampos(false);
-            HabilitaBotoes(true, false, true, false, false);
-            LimparCampos();
-            MessageBox.Show("Registro Editado com Sucesso!", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            finally
+            {
+                cmd.ExecuteNonQuery();
+                con.FecharConexao();
+            }
         }
 
         private void btnExcluir_Click(object sender, EventArgs e)
@@ -201,13 +214,43 @@ namespace PDV
             }
         }
 
-        private void validaCPF(string cpf)
+        private string validaCPF(string cpf)
         {
-            if (cpf == "   ,   ,   -" || txtCPF.Text.Length < 14)
+            try
             {
-                MessageBox.Show("Campo CPF inválido", "Cadastro Funcionário", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCPF.Focus();
-                return;
+                if (cpf == "   ,   ,   -" || txtCPF.Text.Length < 14)
+                {
+                    txtCPF.Focus();
+                    throw new Exception("Campo CPF inválido");
+                }
+
+                if (cpf != cpfAntigo)
+                {
+                    con.AbrirConexao();
+
+                    MySqlCommand cmdVerificar;
+                    cmdVerificar = new MySqlCommand("SELECT * FROM funcionarios WHERE cpf = @cpf", con.con);
+                    MySqlDataAdapter da = new MySqlDataAdapter();
+                    da.SelectCommand = cmdVerificar;
+                    cmdVerificar.Parameters.AddWithValue("@cpf", cpf);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        txtCPF.Text = "";
+                        txtCPF.Focus();
+                        throw new Exception ("CPF Já Registrado");
+                    }
+                }
+                return "";
+            } catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                cmd.ExecuteNonQuery();
+                con.FecharConexao();
             }
         }
         #endregion
